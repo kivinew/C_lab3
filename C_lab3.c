@@ -23,10 +23,10 @@
 
 #define SIZE 100
 
-char strIn[SIZE],															// исходная строка
-	strOut[SIZE],															// упакованная строка
-	*gcp_letters,															// подстрока с буквами
-	*gcp_digits;															// подстрока с цифрами
+char strIn[SIZE];															// исходная строка.
+char strOut[SIZE];															// упакованная строка.
+char *gcp_letters;															// подстрока с буквами.
+char *gcp_digits;															// подстрока с символами цифр.
 void fill(int),
 	 read(int);
 int isDigit(char),
@@ -61,7 +61,7 @@ void fill(int length)														// ввод данных в строку
 		{
 			if (digitFlag == 1)
 			{
-				*gcp_digits++ = '|';										// вставить в подстроку с цифрами символ '|'
+				*gcp_digits++ = ',';										// вставить в подстроку с цифрами символ ','
 				digShiftIndex++;
 				digitFlag = 0;
 			}
@@ -74,7 +74,7 @@ void fill(int length)														// ввод данных в строку
 		{
 			if (letterFlag == 1)											// если уже были буквы,...
 			{																// ...
-				*gcp_letters++ = '|';										// ...вставить в подстроку с буквами символ '|'
+				*gcp_letters++ = '.';										// ...вставить в подстроку с буквами символ '.'
 				txtShiftIndex++;
 				letterFlag = 0;
 			}
@@ -85,23 +85,58 @@ void fill(int length)														// ввод данных в строку
 	}
 	gcp_letters -= txtShiftIndex;
 	gcp_digits -= digShiftIndex;
+	//int *numArray = (int*)malloc(length*sizeof(int)),						// массив для цифр из строки.
+	//	arrLength = 0;														// счётчик длины массива.
+	//i = 0;
+	//while(isDigit(*gcp_digits))
+	//{
+	//	numArray[i] = *gcp_digits++-'0';									// помещаем цифру в массив.
+	//	arrLength++;
+	//	i++;
+	//}
+	//int numInt = 0,														// число, полученное из цифр в строке.
+	//	j;
+	//for (j = 0; j < arrLength; j++)
+	//{
+	//	numInt += numArray[j] * (int) pow(10, arrLength - j - 1);
+	//}
+	char *tempStr = (char*) malloc(length * sizeof(char));
+	if (isLetter(strIn[0]))
+	{
+		letterFlag = 1;
+	}
+	else
+	{
+		letterFlag = 0;
+	}
+	for (i = 0; strOut[i] == '\0'; i++)
+	{
+		while (letterFlag == 1)
+		{
+			if (*gcp_letters == '.')
+			{
+				gcp_letters++;
+				letterFlag = 0;
+			}
+			strOut[i] = *gcp_letters++;
+		}
+		while(letterFlag == 0)
+		{
+			if (*gcp_digits == ',')
+			{
+				gcp_digits++;
+				letterFlag = 1;
+			}
+			strOut[i] = *gcp_digits++;
+		}
+		/*if (i == SIZE)
+		{
+			strOut[i] = '\0';
+			return;
+		}*/
+	}
+	printf("\t%d строка: %s\n", i, strOut);
 
-	int *numArray = (int*)malloc(length*sizeof(int)),						// массив для цифр из строки.
-		arrLength = 0;														// счётчик длины массива.
-	i = 0;
-	while(isDigit(*gcp_digits))
-	{
-		numArray[i] = *gcp_digits++-'0';									// превращаем символ цифры в цифру.
-		arrLength++;
-		i++;
-	}
-	int numInt = 0,															// число, полученное из цифр в строке.
-		j;
-	for (j = 0; j < arrLength; j++)
-	{
-		numInt += numArray[j] * (int) pow(10, arrLength - j - 1);
-		printf("\t%d) %d\n", j, numInt);
-	}
 	return;
 }
 
