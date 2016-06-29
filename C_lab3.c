@@ -19,8 +19,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <string.h>
-#include <math.h>
-
+#include <conio.h>
 #define SIZE 100
 
 char strIn[SIZE];															// исходная строка.
@@ -28,9 +27,11 @@ char strOut[SIZE];															// упакованная строка.
 char *gcp_letters;															// подстрока с буквами.
 char *gcp_digits;															// подстрока с символами цифр.
 void fill(int),
-	 read(int);
+	 read(int),
+	 pause();
 int isDigit(char),
 	isLetter(char);
+
 int main()
 {
 	SetConsoleCP(1251);
@@ -136,7 +137,7 @@ void fill(int length)														// ввод данных в строку
 		}*/
 	}
 	printf("\t%d строка: %s\n", i, strOut);
-
+	pause();
 	return;
 }
 
@@ -164,4 +165,19 @@ int isLetter(char temp)
 	if (temp >= 'a' && temp <= 'z' || temp >= 'а' && temp <= 'я')
 		return 1;
 	return 0;
+}
+
+void pause()
+{
+	printf("Exit after 2 seconds\r");
+	Sleep(1000);
+	printf("Exit after 1 second ");
+	Sleep(1000);
+	if (_kbhit())
+	{
+		printf("\n\nPress again for exit programm...");
+		_getch();
+		_getch();
+	}
+	return;
 }
