@@ -34,6 +34,7 @@ int isDigit(char),
 
 int main()
 {
+	SetConsoleTitleA( "LAB3 by vk.com/KIVINEW" ) ;
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	printf("Введите строку c данными:\n");
