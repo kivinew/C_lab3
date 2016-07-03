@@ -4,45 +4,47 @@
 #include <string.h>
 #include <locale.h>
 #include <windows.h>
+#define N 20
 
 void pause(int);
 
+void gotoxy(int xpos, int ypos);
+
 int main()
 {
-	SetConsoleTitleA( "LAB3 by vk.com/KIVINEW" ) ;
+	SetConsoleTitleA( "LAB3 by KIVINEW" ) ;
 	setlocale(LC_ALL, "russian");
-	char array[20],
-		*charPtr;
-	charPtr = array;
+	char array[N],
+		*charPtr = array;
 	int i, 
-		*intPtr,
 		shift = 0,
 		number = 2456;
-	for (i = 0; i < 20; i++)
+	for (i = 0; i < N; i++)
 	{
 		if (i == 5)
 		{
-			intPtr = (int*)(charPtr+i);
-			*intPtr = number;
+			*(int*)charPtr++ = number;
 			shift = 4;
 		}
 		else
 		{
-			array[i+shift] = i + 65;
+			*charPtr++ = i + 65;
 		}
+		gotoxy(2, 0+i);
+		printf("\t%d\t%d\n", *(charPtr+i), i);
 	}
-	//charPtr = array;
-	for (i = 0; i < 20/*&&(*charPtr!='\0'&&*(charPtr+1)!='\0')*/; i++)
-	{
-		if (i == 5)
-		{
-			printf("Number %d: %d\n", i, *(int*) charPtr);
-			charPtr += 4;
-		}
-		else
-			printf("Number %d: %c\n", i, *(char*) charPtr++);
-	}
-	pause(3);
+
+	//for (i = 0; i < N && (*charPtr!='\0'&&*(charPtr+1)!='\0'); i++)
+	//{
+	//	if (i == 5)
+	//	{
+	//		printf("Number %d: %d\n", i, *(int*) charPtr);
+	//		charPtr += 4;
+	//	}
+	//	else
+	//		printf("Number %d: %c\n", i, *(char*) charPtr++);
+	//}
+	//pause(3);
 	return 0;
 }
 
@@ -61,4 +63,12 @@ void pause(int time)
 		_getch();
 	}
 	return;
+}
+
+void gotoxy(int xpos, int ypos)
+{
+	COORD scrn;
+	HANDLE hOuput = GetStdHandle(STD_OUTPUT_HANDLE);
+	scrn.X = xpos; scrn.Y = ypos;
+	SetConsoleCursorPosition(hOuput, scrn);
 }
