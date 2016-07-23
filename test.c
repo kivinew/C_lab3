@@ -22,26 +22,41 @@
 #include <windows.h>
 #define N 20
 
-void pause(int);
-void gotoxy(int, int);
+void pause(int),
+    gotoxy(int, int),
+    place(int),
+    extract();
+
+int charShift = 0;
+char *charPtr,
+    *string,
+    myArray[N];
 
 int main()
 {
     SetConsoleTitleA("LAB3 by KIVINEW");
     setlocale(LC_ALL, "russian");
     
-    char myArray[N],
-        *charPtr = myArray,
-        *string = (char*) malloc(N * sizeof(char));                         // указатель - в начало статического массива
+    int number = 1111111111;
+    string = (char*) malloc(N * sizeof(char));                              // указатель - в начало статического массива
+    charPtr = myArray;
     printf("\nInput your string to array: ");
     scanf("%20c", string);
-    int i,
-        charShift = 0,
-        number = 11111111;
-    for (i = 0; i < N - charShift * 3; i++)
+    place(number);
+    extract();
+    _getch();
+    //pause(3);
+    return 0;
+}
+
+void place(int number)
+{
+    int i, length = strlen(string);
+    for (i = 0; i < length - charShift * 3; i++)
     {
-        if (i == 3 || i == 13)                                              // условие, когда нужно
-        {                                                                   // положить интовое число в массив
+        if (string[i] == '0' || string[i] == 'x')                           // условие, когда нужно
+        {                                                                   // положить интовое число в массив 
+            *charPtr = '\0';
             *((int*) charPtr)++ = number;                                   // вот тут помещаю интеджер в массив
             charShift++;                                                    // это сдвиг для того, чтобы буквы не пропускать
         }                                                                   //
@@ -51,19 +66,25 @@ int main()
         }                                                                   //
     }
     charPtr = myArray;                                                      // возврат указателя в начало массива
+    return;
+}
+
+void extract()
+{
+    int i, number;
     for (i = 0; i < N - charShift * 3; i++)
     {
-        if (i == 3 || i == 13)                                              // условие, когда нужно
+        if (charPtr[i] == '\0')                                             // условие, когда нужно
         {                                                                   // извлечь интовое число
+            if (charPtr[i + 1] == '\0')
+                break;
             number = *((int*) charPtr)++;                                   // извлекаем из приведённого указателя число и сдвигаем его
             printf("Number %d: %d\n", i, number);
         }
         else
             printf("Number %d: %c\n", i, *charPtr++);                       // извлекаем значение и сдвигаем указатель
     }
-    _getch();
-    //pause(3);
-    return 0;
+    return;
 }
 
 void pause(int time)
