@@ -22,65 +22,64 @@
 #include <conio.h>
 #define SIZE 100
 
-char strIn[SIZE];															// исходная строка.
-char strOut[SIZE];															// упакованная строка.
-char *gcp_letters;															// подстрока с буквами.
-char *gcp_digits;															// подстрока с символами цифр.
+char strIn[SIZE]; // исходная строка.
+char strOut[SIZE]; // упакованная строка.
+char* gcp_letters; // подстрока с буквами.
+char* gcp_digits; // подстрока с символами цифр.
 void fill(int),
-	 read(int),
-	 pause();
+     read(int),
+     pause();
 int isDigit(char),
-	isLetter(char);
+    isLetter(char);
 
 int main()
 {
-	SetConsoleTitleA( "LAB3 by vk.com/KIVINEW" ) ;
+	SetConsoleTitleA("LAB3 by vk.com/KIVINEW");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	printf("Введите строку c данными:\n");
 	scanf("%99s", strIn);
 	int length = strlen(strIn);
 	fill(length);
-//	read(length);
+	//	read(length);
 	return 0;
 }
 
-void fill(int length)														// ввод данных в строку                     
+void fill(int length) // ввод данных в строку                     
 {
 	gcp_letters = (char*) malloc(length * sizeof(char));
 	gcp_digits = (char*) malloc(length * sizeof(char));
 	strcpy(gcp_letters, "0");
 	strcpy(gcp_digits, "0");
-	int	i = 0,
+	int i = 0,
 		txtShiftIndex = 0,
 		digShiftIndex = 0,
-		letterFlag = 0,														// флаг букв
+		letterFlag = 0, // флаг букв
 		digitFlag = 0,
-		size = strlen(strIn);												// размер исходной строки
-	for (; i<size; i++)
+		size = strlen(strIn); // размер исходной строки
+	for (; i < size; i++)
 	{
 		if (isLetter(strIn[i]))
 		{
 			if (digitFlag == 1)
 			{
-				*gcp_digits++ = ',';										// вставить в подстроку с цифрами символ ','
+				*gcp_digits++ = ','; // вставить в подстроку с цифрами символ ','
 				digShiftIndex++;
 				digitFlag = 0;
 			}
 			*gcp_letters++ = strIn[i];
 			txtShiftIndex++;
 			letterFlag = 1;
-
 		}
-		if (isDigit(strIn[i]))												// если встретится цифра,
+		if (isDigit(strIn[i])) // если встретится цифра,
 		{
-			if (letterFlag == 1)											// если уже были буквы,...
-			{																// ...
-				*gcp_letters++ = '.';										// ...вставить в подстроку с буквами символ '.'
+			if (letterFlag == 1) // если уже были буквы,...
+			{ // ...
+				*gcp_letters++ = '.'; // ...вставить в подстроку с буквами символ '.'
 				txtShiftIndex++;
 				letterFlag = 0;
 			}
-			*gcp_digits++ = strIn[i];										// и записать эту цифру в подстроку с цифрами.
+			*gcp_digits++ = strIn[i]; // и записать эту цифру в подстроку с цифрами.
 			digShiftIndex++;
 			digitFlag = 1;
 		}
@@ -102,7 +101,7 @@ void fill(int length)														// ввод данных в строку
 	//{
 	//	numInt += numArray[j] * (int) pow(10, arrLength - j - 1);
 	//}
-	char *tempStr = (char*) malloc(length * sizeof(char));
+	char* tempStr = (char*) malloc(length * sizeof(char));
 	if (isLetter(strIn[0]))
 	{
 		letterFlag = 1;
@@ -122,7 +121,7 @@ void fill(int length)														// ввод данных в строку
 			}
 			strOut[i] = *gcp_letters++;
 		}
-		while(letterFlag == 0)
+		while (letterFlag == 0)
 		{
 			if (*gcp_digits == ',')
 			{
@@ -142,14 +141,13 @@ void fill(int length)														// ввод данных в строку
 	return;
 }
 
-void read(int length)														// расшифровка данных
+void read(int length) // расшифровка данных
 {
 	printf("Буквы: %s\n", gcp_letters);
 	printf("Цифры: %s\n", gcp_digits);
 	int i = 0;
 	for (; i < length; i++)
 	{
-
 	}
 	return;
 }
